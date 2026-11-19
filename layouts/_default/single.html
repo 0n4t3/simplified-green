@@ -39,15 +39,6 @@
       {{- partial "related" . }}
     {{- end }}
 
-    {{- $showComments := true }}
-    {{- if eq $s.comments false }}
-      {{- $showComments = false }}
-    {{- else if eq $p.comments false }}
-      {{- $showComments = false }}
-    {{- end }}
-    {{- if ne $showComments false }}
-      {{- partial "comments" . }}
-    {{- end }}
     {{- partial "i18nlist" . }}
 
   </article>

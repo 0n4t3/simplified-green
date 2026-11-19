@@ -52,7 +52,6 @@ A technology-minded theme for Hugo based on VMware's open-source [Clarity Design
   * [Forcing light or dark mode](#forcing-light-or-dark-mode)
   * [Internationalization - I18N](#i18n)
   * [Hooks](#hooks)
-  * [Comments](#comments)
   * [Math notation](#math-notation)
   * [Open Street Map](#map)
 * [Contributing](#contributing)
@@ -210,14 +209,7 @@ These options set global values that some pages or all pages in the site use by 
 | Parameter                  | Value Type                  | Overridable on Page |
 |:-------------------------- | --------------------------- | ------------------- |
 | author                     | map / string                | no                  |
-| twitter                    | string                      | no                  |
 | largeTwitterCard           | boolean                     | no                  |
-| ga_analytics               | string                      | no                  |
-| google_tag_manager_id      | string                      | no                  |
-| baidu_analytics            | string                      | no                  |
-| plausible_analytics        | boolean                     | no                  |
-| matomo_analytics           | boolean                     | no                  |
-| umami_data_website_id      | string                      | no                  |
 | description                | string                      | yes                 |
 | keywords                   | array of strings            | yes                 |
 | introDescription           | string                      | yes                 |
@@ -240,7 +232,6 @@ These options set global values that some pages or all pages in the site use by 
 | enforceDarkMode            | boolean                     | N/A                 |
 | titleSeparator             | string                      | no                  |
 | showShare                  | boolean                     | yes                 |
-| comments                   | boolean                     | yes                 |
 | numberOfRecentPosts        | integer                     | no                  |
 | numberOfFeaturedPosts      | integer                     | no                  |
 | pinFeatured                | boolean                     | no                  |
@@ -285,7 +276,6 @@ These options can be set from a page [frontmatter](https://gohugo.io/content-man
 | codeLineNumbers      | boolean            | yes              |
 | figurePositionShow   | boolean            | yes              |
 | figurePositionLabel  | string             | no               |
-| comments             | boolean            | yes              |
 | enableMathNotation   | boolean            | yes              |
 | showDate             | boolean            | N/A              |
 | showLastmod          | boolean            | N/A              |
@@ -309,40 +299,9 @@ If you prefer the more [traditional approach](https://gohugo.io/content-manageme
 
 To edit your social media profile links, edit the files referenced above. Specifically, look for items with `[[social]]`
 
+The theme includes follow icons for `github`, `gitlab` and `rss`; set each `[[social]]` item's `name` to one of these.
+
 If you wish to globally use a [large Twitter summary card](https://developer.twitter.com/en/docs/twitter-for-websites/cards/overview/summary-card-with-large-image) when sharing posts, set the global parameter `largeTwitterCard` to `true`.
-
-### Web site analytics
-
-If using Google Analytics, configure the `ga_analytics` global parameter in your site with your ID. You can opt to set a google tag manager using `google_tag_manager_id`.
-
-If using Baidu Analytics, configure the `baidu_analytics` global parameter in your site with your ID.
-
-If using Plausible Analytics, configure the `plausible_analytics` global parameters in your site with the following.
-
-`enable` To enable plausible analytics change to `true`.
-
-`websiteDomain` Set domain name of your website, most cases same as your base URL this is required.
-
-`plausibleDomain`  Default is set to plausible.io, this parameter is only required if plausible is self-hosted.
-
-`scriptName`  Default is set to plausible, this parameter is only required if using a custom name for script.
-
-If using Matomo Analytics, configure the `matomo_analytics` global parameters in your site with the following.
-
-`enable` To enable matomo analytics change to `true`.
-
-`websiteDomain` Set the domain name of your website, in most cases same as your base URL this is required.
-
-`matomoDomain`   Set to Matomo domain
-
-`matomoSiteID`  Default is set to 1, change this to the siteid being tracked
-
-If using [Umami Analytics](https://umami.is/), uncomment and configure the following in *params.toml*:
-
-* `umami_data_website_id` - The data website ID provided in the script by Umami.  It should be in the form of a GUID (# characters):  8-4-4-4-12.
-* `umami_script_url` - This is pre-loaded with the cloud-hosted Umami Script URL, but can be changed if you are self-hosting.
-
-> NOTE:  The head partial only loads analytics if the hugo environment is NOT `development`.  
 
 ### Blog directory
 
@@ -807,46 +766,6 @@ Similar, if you want to add some code right before the body end (e.g fonts' link
 ```
 layouts/partials/hooks/body-end.html
 ```
-
-### Comments
-
-Clarity supports Hugo built-in Disqus partial. You can enable Disqus simply by setting [`disqusShortname`](https://gohugo.io/templates/internal/#configure-disqus) in your [configuration file](https://github.com/chipzoller/hugo-clarity/blob/88f6cf4ac37c12990983b92d19842524555c23d3/exampleSite/config/config.toml#L11).
-
-You can also override [layouts/partials/comments.html](https://github.com/chipzoller/hugo-clarity/blob/master/layouts/partials/comments.html) to take advantage of [disqus comments Alternatives](https://gohugo.io/content-management/comments/#comments-alternatives) for details.
-
-> Please leave `#disqusShortname = ""` commented out if you decide to use other comments tools
-
-You can disable them site-wide by setting `comments = false` under `[params]` from config.toml file and vice versa. Omitting that setting will default to comments will be enabled.
-
-You can override these setting from each post individually. For example, you may want to disable/enable comments on specific posts. Use the same syntax used on the config.toml file.
-
-> please use `comments` and not `comment`
-
-#### Utterances Commenting Support
-
-If you wish use [Utterances](https://github.com/utterance/utterances) comments on your site, you'll need to perform the following:
-
- * Ensure you have a GitHub public repository, which you've granted permissions to the [Utterances GitHub App](https://github.com/apps/utterances).
- * Comment out the line for `disqusShortname = ""` in the `/config/_default/config.toml` file.
- * Set `comments = true` in the `/config/_default/params.toml` file.
- * Configure the utterances parameters in the `/config/_default/params.toml` file.
- * Optionally, you can choose a label that will be assigned to all issues created by Utterances. The label must exist in your Github repository, as Utterances cannot attach labels that do not exist. Configure `utterancesLabel` parameter in `/config/_default/params.toml` file, after you have added a label to your Github repository Issues labels. Labels are case sensitive and support Emoji in label names. ✨💬✨
-
-Utterances is loaded in the `comments.html` partial by referring to the `utterances.html` partial.   Since `single.html` layout loads comments if comments are enabled, you must ensure *both* the `comments` and `utterances` parameters are configured.
-
-#### Giscus Commenting Support
-
-If you wish to use [giscus](https://giscus.app/) comments on your site, you'll need to perform the following:
-
- * Ensure your repository is [public](https://docs.github.com/en/github/administering-a-repository/managing-repository-settings/setting-repository-visibility#making-a-repository-public), otherwise visitors will not be able to view the discussion.
- * The [giscus app](https://github.com/apps/giscus) is installed, otherwise visitors will not be able to comment and react.
- * The Discussions feature is turned on by [enabling it for your repository](https://docs.github.com/en/github/administering-a-repository/managing-repository-settings/enabling-or-disabling-github-discussions-for-a-repository).
- * Comment out the line for `disqusShortname = ""` in the `/config/_default/config.toml` file.
- * Set `comments = true` in the `/config/_default/params.toml` file.
- * Configure the giscus parameters in the `/config/_default/params.toml` file.
-
-Giscus is loaded in the `comments.html` partial by referring to the `giscus.html` partial.   Since `single.html` layout loads comments if comments are enabled, you must ensure *both* the `comments` and `giscus` parameters are configured.
-
 
 ### Math notation
 

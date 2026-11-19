@@ -1,21 +1,11 @@
 # socials
-twitter = "@janedoe"
 largeTwitterCard = false                                                                          # set to true if you want to show a large twitter card image. The default is a small twitter card image
 introDescription = "Technologist, perpetual student, teacher, continual incremental improvement."
 # introURL = "about/" # set the url for the 'read more' button below the introDescription, or set to false to not show the button
 # description = "A theme based on VMware's Clarity Design System for publishing technical blogs with Hugo." # Set your site's meta tag (SEO) description here. Alternatively set this description in your home page content file e.g. content/_index.md. Whatever is set in the latter will take precedence.
 # keywords = ["design", "clarity", "hugo theme"] # Set your site's meta tag (SEO) keywords here. Alternatively set these in your home page content file e.g. content/_index.md. Whatever is set in the latter will take precedence.
 
-# showShare = false # Uncomment to not show share buttons on each post. Also available in each post's front matter.
-
-# Google analytics Id
-ga_analytics = ""
-
-# Google tag manager
-google_tag_manager_id = ""
-
-# Baidu analytics Id
-# baidu_analytics = "XXXXXXXX"
+# showShare = false # Uncomment to hide the copy-link button on each post. Also available in each post's front matter.
 
 # limit the number of taxonomies links shown on the sidebar of each page by default.
 numberOfTagsShown = 14 # Applies for all other default & custom taxonomies. e.g categories, brands see https://gohugo.io/content-management/taxonomies#what-is-a-taxonomy
@@ -95,29 +85,8 @@ languageMenuName = "🌐"
 # Title separator, default to |.
 # titleSeparator = "|"
 
-# Enable or disable comments globally. Default to true.
-# comments = false
-
 # Activate meta ld+json for blog
 blogDir = "post"
-
-# Enable or disable Utterances (https://github.com/utterance/utterances) Github Issue-Based Commenting
-# utterances = true  # Run the utterances script in the single.html layout to load https://utteranc.es comments
-# utterancesRepo = "GHUsername/Repository.Name" # Utterances is enabled when this param is set
-# utterancesLabel = "blog comments ✨💬✨" # The label needs to be manually added to your Github repository issues before configuring here
-# utterancesTheme = "github-light" # Default: github-dark
-# utterancesIssueTerm = "pathname" # Default: pathname
-
-# Enable or disable Giscus comments globally. Default to false.
-# giscus = true
-# giscusRepo = "GHUsername/Repository.Name" # Giscus is enabled when this param is set
-# giscusRepoId = "RepositoryID" # Required for Giscus to work
-# giscusCategory = "Blog"
-# giscusCategoryId = "CategoryID" # Required for Giscus to work
-# giscusMapping = "pathname" # Default: pathname
-# giscusReactionsEnabled = "1" # Default: 1 = true
-# giscusTheme = "dark_protanopia" # Default: dark_dimmed
-# giscusLang = "en" # Default: en
 
 
 # Maximum number of recent posts. (default: 8)
@@ -149,22 +118,6 @@ blogDir = "post"
 [author]
 name = "Jane Doe"
 # photo = "images/jane-doe.png" #include this if you would like to show the author photo on the sidebar
-
-[plausible_analytics]
-enable = false                # to enable plausible analytics set to true.
-websiteDomain = "example.com" # domain name of your website, most cases same as your base url
-# plausibleDomain = "plausible.io" # default is set to plausible.io, only required if plausible is self hosted
-# scriptName = "plausible" # default is set to plausible, only required if using a custom name for script
-
-[matomo_analytics]
-enable = false                      # To enable matomo analytics change to `true`.
-websiteDomain = "example.com"       # Set the domain name of your website, in most cases same as your base URL this is required.
-matomoDomain = "matomo.example.com" # Set to Matomo domain
-matomoSiteID = "1"                  # Default is set to 1, change this to the siteid being tracked
-
-# Umami Analytics -- https://umami.is/
-# umami_data_website_id = "GUID-8-4-4-4-12" # Umami Analytics data website id - GUID format (8-4-4-4-12)
-# umami_script_url = "https://cloud.umami.is/script.js" # Umami Analytics script URL
 
 [cdn] # a CDN shortcode to generate links for your images and files in buckets such as B2, S3, etc.  
 url = "https://some.url.scheme/"  # your base CDN url such as "https://images.site.com/" (including the trailing slash)

@@ -41,13 +41,6 @@
   .grid-4
     grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr))
 
-$sites: ("facebook": #325c94, "twitter": #00abdc,"linkedin": #007bb6)
-
-@each $item, $color in $sites
-  .#{$item}
-    svg
-      fill: $color
-
 // 404 page
 .never
   height: 75vh

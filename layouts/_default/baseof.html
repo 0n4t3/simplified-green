@@ -26,7 +26,6 @@
     data-lines="{{ $codeBlockConfig.lines }}"
     id="documentTop"
   >
-    {{- partialCached "scripts/google/tag-manager" (dict "noscript" true) }}
     {{- partial "header" . }}
     <main>
       {{- block "main" . }}{{ end }}
