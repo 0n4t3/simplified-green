@@ -19,9 +19,3 @@ DefaultContentLanguage = "en"
 category = "categories"
 tag = "tags"
 series = "series"
-
-[outputs]
-home = ["HTML", "RSS", "JSON"]
-
-[pagination]
-pagerSize = 10

@@ -1,71 +1,28 @@
-(function toggleColorModes(){
-  const light = 'lit';
-  const dark = 'dim';
+(function toggleColorModes() {
   const storageKey = 'colorMode';
-  const key = '--color-mode';
-  const data = 'data-mode';
-  const bank = window.localStorage;
-
-  function currentMode() {
-    let acceptableChars = light + dark;
-    acceptableChars = [...acceptableChars];
-    let mode = getComputedStyle(doc).getPropertyValue(key).replace(/\"/g, '').trim();
-
-    mode = [...mode].filter(function(letter){
-      return acceptableChars.includes(letter);
-    });
-
-    return mode.join('');
-  }
-
-  function changeMode(isDarkMode) {
-    if(isDarkMode) {
-      bank.setItem(storageKey, light)
-      elemAttribute(doc, data, light);
-    } else {
-      bank.setItem(storageKey, dark);
-      elemAttribute(doc, data, dark);
+  try {
+    const storedMode = localStorage.getItem(storageKey);
+    if (storedMode === 'lit' || storedMode === 'dim') {
+      doc.dataset.mode = storedMode;
     }
+  } catch {
+    // The switch still works when storage is unavailable.
   }
 
-  function setUserColorMode(mode = false) {
-    const isDarkMode = currentMode() == dark;
-    const storedMode = bank.getItem(storageKey);
-    if(storedMode) {
-      if(mode) {
-        changeMode(isDarkMode);
-      } else {
-        elemAttribute(doc, data, storedMode);
-      }
-    } else {
-      if(mode === true) {
-        changeMode(isDarkMode)
-      }
-    }
-  }
-
-  setUserColorMode();
-
-  doc.addEventListener('click', function(event) {
-    let target = event.target;
-    let modeClass = 'color_choice';
-    let animateClass = 'color_animate';
-    let isModeToggle = containsClass(target, modeClass);
-    if(isModeToggle) {
-      pushClass(target, animateClass);
-      setUserColorMode(true);
+  elem('.color_choice')?.addEventListener('click', function(event) {
+    const mode = getComputedStyle(doc).getPropertyValue('--color-mode').trim();
+    const nextMode = mode.includes('dim') ? 'lit' : 'dim';
+    event.currentTarget.classList.add('color_animate');
+    doc.dataset.mode = nextMode;
+    try {
+      localStorage.setItem(storageKey, nextMode);
+    } catch {
+      // Keep the selected mode for this page.
     }
   });
 })();
 
 function fileClosure(){
-
-  (function updateDate() {
-    const date = new Date();
-    const year = date.getFullYear();
-    const yearEl = elem('.year');
-    yearEl ? yearEl.innerHTML = `${year}` : false;
-  })();
 
   (function makeExternalLinks(){
     let links = elems('a');
@@ -89,38 +46,26 @@ function fileClosure(){
     }
   })();
 
-  let headingNodes = [], results, link, icon, current, id,
-  tags = ['h2', 'h3', 'h4', 'h5', 'h6'];
+  const headingTags = ['h2', 'h3', 'h4', 'h5', 'h6'];
+  const headingSelector = headingTags.join(', ');
+  const post = elem('.post_content');
 
-  current = document.URL;
-
-  tags.forEach(function(tag){
-    const article = elem('.post_content');
-    if (article) {
-      results = article.getElementsByTagName(tag);
-      Array.prototype.push.apply(headingNodes, results);
-    }
-  });
-
-  headingNodes.forEach(function(node){
-    link = createEl('a');
-    link.className = 'link icon';
-    id = node.getAttribute('id');
-    if(id) {
-      link.href = `${current}#${id}`;
-      node.appendChild(link);
-      pushClass(node, 'link_owner');
-    }
-  });
-
-  let inlineListItems = elems('ol li');
-  if(inlineListItems) {
-    inlineListItems.forEach(function(listItem){
-      let firstChild = listItem.children[0]
-      let containsHeading = isMatch(firstChild, tags);
-      containsHeading ? pushClass(listItem, 'align') : false;
-    })
+  if (post) {
+    post.querySelectorAll(headingSelector).forEach(function(heading) {
+      if (!heading.id) return;
+      const link = createEl('a');
+      link.className = 'link icon';
+      link.href = '#' + encodeURIComponent(heading.id);
+      heading.appendChild(link);
+      heading.classList.add('link_owner');
+    });
   }
+
+  elems('ol li').forEach(function(item) {
+    if (item.firstElementChild?.matches(headingSelector)) {
+      item.classList.add('align');
+    }
+  });
 
   function copyFeedback(parent) {
     const copyText = document.createElement('div');
@@ -135,83 +80,29 @@ function fileClosure(){
     }
   }
 
-  (function copyHeadingLink() {
-    let deeplink, deeplinks, newLink, parent, target;
-    deeplink = 'link';
-    deeplinks = elems(`.${deeplink}`);
-    if(deeplinks) {
-      document.addEventListener('click', function(event)
-      {
-        target = event.target;
-        parent = target.parentNode;
-        if (target && containsClass(target, deeplink) || containsClass(parent, deeplink)) {
-          event.preventDefault();
-          newLink = target.href != undefined ? target.href : target.parentNode.href;
-          copyToClipboard(newLink);
-          target.href != undefined ?  copyFeedback(target) : copyFeedback(target.parentNode);
-        }
-      });
+  doc.addEventListener('click', function(event) {
+    const link = event.target.closest('a.link, a.link_yank');
+    if (link) {
+      event.preventDefault();
+      copyToClipboard(link.href);
+      copyFeedback(link);
+      return;
     }
-  })();
 
-  (function copyLinkToShare() {
-    let  copy, copied, excerpt, isCopyIcon, isInExcerpt, link, postCopy, postLink, target;
-    copy = 'copy';
-    copied = 'copy_done';
-    excerpt = 'excerpt';
-    postCopy = 'post_copy';
-    postLink = 'post_card';
-
-    doc.addEventListener('click', function(event) {
-      target = event.target;
-      isCopyIcon = containsClass(target, copy);
-      let isWithinCopyIcon = target.closest(`.${copy}`);
-      if (isCopyIcon || isWithinCopyIcon) {
-        let icon = isCopyIcon ? isCopyIcon : isWithinCopyIcon;
-        isInExcerpt =  containsClass(icon, postCopy);
-        if (isInExcerpt) {
-          link = target.closest(`.${excerpt}`).previousElementSibling;
-          link = containsClass(link, postLink)? elemAttribute(link, 'href') : false;
-        } else {
-          link = window.location.href;
-        }
-        if(link) {
-          copyToClipboard(link);
-          pushClass(icon, copied);
-        }
+    const icon = event.target.closest('.copy');
+    if (icon) {
+      const card = icon.closest('.excerpt')?.previousElementSibling;
+      const url = icon.classList.contains('post_copy')
+        ? card?.matches('.post_card') && card.href
+        : window.location.href;
+      if (url) {
+        copyToClipboard(url);
+        icon.classList.add('copy_done');
       }
-      const yankLink = '.link_yank';
-      const isCopyLink = target.matches(yankLink);
-      const isCopyLinkIcon = target.closest(yankLink);
-
-      if(isCopyLink || isCopyLinkIcon) {
-        event.preventDefault();
-        const yankContent = isCopyLinkIcon ? elemAttribute(target.closest(yankLink), 'href') : elemAttribute(target, 'href');
-        copyToClipboard(yankContent);
-        isCopyLink ?  copyFeedback(target) : copyFeedback(target.parentNode);
-      }
-    });
-  })();
-
-  (function hideAside(){
-    let aside, title, posts;
-    aside = elem('.aside');
-    title = aside ? aside.previousElementSibling : null;
-    if(aside && title.nodeName.toLowerCase() === 'h3') {
-      posts = Array.from(aside.children);
-      posts.length < 1 ? title.remove() : false;
     }
-  })();
+  });
 
-  (function goBack() {
-    let backBtn = elem('.btn_back');
-    let history = window.history;
-    if (backBtn) {
-      backBtn.addEventListener('click', function(){
-        history.back();
-      });
-    }
-  })();
+  elem('.btn_back')?.addEventListener('click', () => history.back());
 
   function showingImagePosition(){
     // whether or not to track image position for non-linear images within the article body element.
@@ -304,8 +195,6 @@ function fileClosure(){
       // Persist modified alt to image element
       image.alt = alt
     });
-
-    hljs.initHighlightingOnLoad();
   }
 
  function mark_image_as_scalable(baseParent, image) {
@@ -320,7 +209,6 @@ function fileClosure(){
  }
 
   (function AltImage() {
-    let post = elem('.post_content');
     let images = post ? post.querySelectorAll('img') : [];
     images ? populateAlt(images) : false;
 
@@ -344,8 +232,6 @@ function fileClosure(){
       let figure = target.closest('figure');
       modifyClass(figure, scaleImageClass);
     }
-
-    goBack(target);
   });
 
   const tables = elems('table');
@@ -443,31 +329,6 @@ function fileClosure(){
     });
   })();
 
-  function isMobileDevice() {
-    const agent = navigator.userAgent.toLowerCase();
-    const isMobile = agent.includes('android') || agent.includes('iphone');
-    return  isMobile;
-  };
-
-  (function ifiOS(){
-    // modify backto top button
-    const backToTopButton = elem('.to_top');
-    const thisOS = getMobileOperatingSystem();
-    const ios = 'ios';
-    if(backToTopButton && thisOS === 'iOS') {
-      pushClass(backToTopButton, ios);
-    }
-    // precisely position back to top button on large screens
-    const buttonParentWidth = backToTopButton.parentNode.offsetWidth;
-    const docWidth = doc.offsetWidth;
-    let leftOffset = (docWidth - buttonParentWidth) / 2;
-    const buttonWidth = backToTopButton.offsetWidth;
-    leftOffset = leftOffset + buttonParentWidth - buttonWidth;
-    if(!isMobileDevice()){
-      backToTopButton.style.left = `${leftOffset}px`;
-    }
-  })();
-
   (function sortTags() {
     doc.addEventListener('click', function(event){
       const active = 'active';
@@ -488,17 +349,7 @@ function fileClosure(){
     })
   })();
 
-  (function shareViaLinkedin() {
-    doc.addEventListener('click', function(event){
-      const linkedin = '.linkedin';
-      const target = event.target;
-      if(target.matches(linkedin) || target.closest(linkedin)) {
-        window.open('http://www.linkedin.com/shareArticle?mini=true&url='+encodeURIComponent(window.location.href), '', 'left=0,top=0,width=650,height=420,personalbar=0,toolbar=0,scrollbars=0,resizable=0');
-      }
-    });
-  })();
-
   // add new code above this line
 }
 
-window.addEventListener(pageHasLoaded, fileClosure());
+fileClosure();

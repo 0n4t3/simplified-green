@@ -54,19 +54,3 @@ other = "{{ .ReadingTime }} 分で読了"
 
 [series_posts]
 other = "このシリーズの投稿"
-
-# search
-[quick_links]
-  other = "結果"
-[no_matches]
-  other = "結果が存在しません"
-[search_field_placeholder]
-  other = "ナレッジベース内を検索"
-[blog_search_field_placeholder]
-  other = "検索..."
-[search_results_label]
-  other = "検索結果"
-[short_search_query]
-  other = "検索文字列が短すぎます"
-[type_to_search]
-  other = "入力して検索"

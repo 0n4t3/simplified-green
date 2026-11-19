@@ -54,19 +54,3 @@ other = "{{ .ReadingTime }} min leestijd"
 
 [series_posts]
 other = "Berichten in deze serie"
-
-# search
-[quick_links]
-  other = "Resultaten"
-[no_matches]
-  other = "Geen resultaten gevonden"
-[search_field_placeholder]
-  other = "Doorzoek de knowledge base"
-[blog_search_field_placeholder]
-  other = "Zoeken..."
-[search_results_label]
-  other = "Zoekresultaten"
-[short_search_query]
-  other = "Zoekopdracht is te kort"
-[type_to_search]
-  other = "Type om te zoeken"

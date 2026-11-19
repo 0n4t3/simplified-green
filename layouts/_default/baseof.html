@@ -25,7 +25,6 @@
     data-code="{{ $codeBlockConfig.max }}"
     data-lines="{{ $codeBlockConfig.lines }}"
     id="documentTop"
-    data-lang="{{ .Lang }}"
   >
     {{- partialCached "scripts/google/tag-manager" (dict "noscript" true) }}
     {{- partial "header" . }}
@@ -34,7 +33,9 @@
     </main>
 
     {{- partialCached "icons" . }}
-    {{- partialCached "footer" . }}
+    {{- if or $p.enableMathNotation $s.enableMathNotation }}
+      {{- partialCached "math" . }}
+    {{- end }}
     {{- partialCached "scripts/index" . }}
     {{- partialCached "hooks/body-end" . }}
   </body>

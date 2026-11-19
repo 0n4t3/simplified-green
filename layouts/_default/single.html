@@ -13,7 +13,7 @@
   <article class="post_content">
     {{- $t := .Title }}
     <h1 class="post_title">{{ $t | markdownify }}</h1>
-    {{- partial "post-meta" . }}
+    {{- partial "post-meta" (dict "page" . "isCard" false) }}
     {{- with .Params.featureImage -}}
       <div class="post_featured">
         {{- partial "image" (dict "file" $p.featureImage "alt" $p.featureImageAlt "cap" $p.featureImageCap "type" "featured" "Page" $.Page) }}

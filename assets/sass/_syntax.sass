@@ -13,11 +13,12 @@ code
   display: block
   font-family: 'Monaco', monospace
   word-break: break-all
-  &.noClass
-    --inlineColor: rgb(194, 29, 0)
-    color: var(--inlineColor)
-    display: inline
-    line-break: anywhere
+
+code:is(:not([class]), [class=""], .verbatim, .noClass):not(pre code)
+  --inlineColor: rgb(194, 29, 0)
+  color: var(--inlineColor)
+  display: inline
+  line-break: anywhere
 .windows .highlight
   overflow-x: hidden
   &:hover
@@ -169,14 +170,6 @@ code
 .w
   color: #666
 
-.hljs
-  &-string
-    color: #6ab825
-  &-attr
-    color: #ed9d13
-  .p &-attr
-    color: var(--light)
-
 .pre
   &_wrap
     white-space: pre-wrap
@@ -227,7 +220,7 @@ code
     display: none
   &_from
     position: absolute
-    color: var(--theme)
+    color: $leaf
     bottom: 0
     font-size: 1.5rem
     font-weight: 500

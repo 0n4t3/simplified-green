@@ -1,8 +1,12 @@
 $light: #fff
-$haze: #fafafa
+$haze: #E8F5E9
 $xhaze: darken($haze, 11%)
-$bg: #002538
-$theme: #0077b8
+$theme: #1B5E20
+$bg: $theme
+$nav-bg: #34782E
+$mint: #A5D6A7
+$leaf: #66BB6A
+$dark-surface: #10251c
 $mobile-menu-breakpoint: 769px
 $single-column-breakpoint: 42rem
 
@@ -24,23 +28,22 @@ $single-column-breakpoint: 42rem
 
 html
   --color-mode: 'lit'
-  --light: #fff
-  --dark: #000
-  --bg: #002538
-  --haze: #f2f2f2
-  --gray: #020202
-  --accent: var(--gray)
-  --text: #575757
+  --light: #fbfdf9
+  --dark: #14281d
+  --bg: #{$bg}
+  --haze: #{$haze}
+  --gray: #203c2d
+  --accent: var(--theme)
+  --text: #344a3e
   --text-hover: var(--gray)
   --header-text: var(--dark)
   --font: Metropolis, sans-serif
-  --theme: #0077b8
+  --theme: #{$theme}
   --ease: cubic-bezier(.19,1,.22,1)
-  --code-bg: var(--bg)
+  --code-bg: #{$dark-surface}
   --table-bg: var(--light)
   --table-haze: var(--haze)
-  --table-border: #dedede
-  --footer-bg: var(--haze)
+  --table-border: #{$mint}
   --shadow: rgba(0,0,0,0.12)
   --translucent: rgba(0,0,0,0.05)
   --translucent-light: rgba(255,255,255,0.05)
@@ -48,7 +51,7 @@ html
   --choice-bg: var(--haze)
   --ease: cubic-bezier(0.39, 0.575, 0.565, 1)
   --easing: cubic-bezier(.19,1,.22,1)
-  --notice-code-bg: #0D3042
+  --notice-code-bg: #{$dark-surface}
   --notice-info-border-color: #6AB0DE
   --notice-info-background: #E7F2FA
   --notice-note-border-color: #F0B37E
@@ -61,18 +64,17 @@ html
   &.page
     --choice-bg: var(--light)
   @mixin darkmode
-    --light: hsla(0,0%,100%,0.87)
+    --light: #{$haze}
     --color-mode: 'dim'
     --text: var(--light)
     --text-hover: var(--haze)
-    --accent: var(--bubble)
-    --choice-bg: var(--bg)
+    --accent: #{$mint}
+    --choice-bg: #{$dark-surface}
     --code-bg: var(--translucent-light)
     --header-text: var(--light)
     --table-bg: var(--code-bg)
     --table-haze: rgba(255,255,255,0.1)
     --table-border: var(--code-bg)
-    --footer-bg: var(--bg)
     --post-bg: var(--translucent-light)
     *
       // box-shadow: none !important
@@ -81,7 +83,7 @@ html
     @include darkmode
     blockquote
       background: var(--translucent-light)
-      color: #dedede
+      color: var(--light)
     svg.icon
       fill: var(--light)
     .icon
@@ -105,7 +107,7 @@ html
       @include darkmode
       blockquote
         background: var(--translucent-light)
-        color: #dedede
+        color: var(--light)
       svg.icon
         fill: var(--light)
       .icon

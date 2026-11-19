@@ -54,19 +54,3 @@ other = "Przeczytasz w {{ .ReadingTime }} minut"
 
 [series_posts]
 other = "Wpisy w tej serii"
-
-# search
-[quick_links]
-  other = "Wyniki"
-[no_matches]
-  other = "Nic nie znaleziono"
-[search_field_placeholder]
-  other = "Search the knowledge base"
-[blog_search_field_placeholder]
-  other = "Szukaj..."
-[search_results_label]
-  other = "Wyniki Szukania"
-[short_search_query]
-  other = "Zapytanie jest zbyt krótkie"
-[type_to_search]
-  other = "Pisz by szukać"

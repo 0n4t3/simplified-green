@@ -12,12 +12,9 @@
 <div class="grid-inverse wrap content">
   <div>
     <ul class="posts" id="posts">
-      {{- range (.Paginate $pages).Pages }}
+      {{- range $pages }}
         {{ partial "excerpt" . }}
       {{- end }}
-      <li>
-        {{- template "_internal/pagination.html" . }}
-      </li>
     </ul>
   </div>
   {{- partial "sidebar" . }}

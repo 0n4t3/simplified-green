@@ -27,7 +27,6 @@ A technology-minded theme for Hugo based on VMware's open-source [Clarity Design
   * [Menus](#modify-menus)
     * [Main Menu](#main-menu)
     * [Social media](#social-media)
-  * [Search Engine](#search-engine)
   * [Blog directory](#blog-directory)
   * [Mobile menu positioning](#mobile-menu-positioning)
   * [Tags and taxonomies](#tags-and-taxonomies)
@@ -56,7 +55,6 @@ A technology-minded theme for Hugo based on VMware's open-source [Clarity Design
   * [Comments](#comments)
   * [Math notation](#math-notation)
   * [Open Street Map](#map)
-  * [Search](#search)
 * [Contributing](#contributing)
 * [Code of conduct](#code-of-conduct)
 * [License](#license)
@@ -64,8 +62,6 @@ A technology-minded theme for Hugo based on VMware's open-source [Clarity Design
 ## Features
 
 * Blog with tagging and category options
-
-* Search
 
 * Deeplinks
 
@@ -123,7 +119,7 @@ There are several ways to use this theme:
 
 For trying out the theme, quick experimentation, and to contribute Pull Requests, Gitpod is the easiest option. Use the button above and it will spin up a prebuilt environment with a site ready to go.
 
-If you want to contribute a PR, [this is a good overview of that process](https://jldec.me/using-gitpod-to-create-a-pr), and there's also an [optional browser extension](https://ona.com/docs/classic/user/introduction/getting-started/quickstart/overview#installing-the-gitpod-browser-extension). [Read more about contributing to Hugo Clarity](CONTRIBUTING.md)
+If you want to contribute a PR, [this is a good overview of that process](https://jldec.me/using-gitpod-to-create-a-pr), and there's also an [optional browser extension](https://www.gitpod.io/docs/browser-extension). [Read more about contributing to Hugo Clarity](CONTRIBUTING.md)
 
 ### Option 1b: Development on your machine
 
@@ -257,8 +253,6 @@ These options set global values that some pages or all pages in the site use by 
 | rss_summary_read_more_link | boolean                     | N/A                 |
 | showRelatedInArticle       | boolean                     | yes                 |
 | showRelatedInSidebar       | boolean                     | no                  |
-| footerLogo                 | string                      | N/A                 |
-| enableSearch               | boolean                     | N/A                 |
 | blogDir                    | string                      | no                  |
 | cdn                        | map                         | no                  |
 
@@ -609,6 +603,8 @@ If no logo is specified, the title of the site will appear in its place.
 
 ### Code
 
+Hugo highlights fenced code blocks and the output of its `highlight` shortcode at build time. Use either format when you want syntax highlighting for code embedded in a post.
+
 #### Display line numbers
 
 Choose whether to display line numbers within a code block globally with the parameter `codeLineNumbers` setting to `true` or `false`.
@@ -794,7 +790,7 @@ In the exampleSite that's as easy as removing the extra translations from the `c
 sed '/^\[pt]$/,$d' -i config/_default/languages.toml && rm config/_default/menus/menu.pt.toml
 ```
 
-To change the values of translatable text, such as `read_more` or `copyright`, edit the values in the language file you are using in the [`i18n`](i18n) directory. If you have no such directory, copy the one inside the theme to your root Hugo directory.
+To change the values of translatable text, such as `read_more` or `recent_posts`, edit the values in the language file you are using in the [`i18n`](i18n) directory. If you have no such directory, copy the one inside the theme to your root Hugo directory.
 
 ### Hooks
 
@@ -927,48 +923,6 @@ Available parameters are:
 - `datalayersControl` (default `true`)
 - `onLoadPanel` (default `none`)
 - `captionBar` (default `false`)
-
-### Search
-
-Search is currently a BETA feature. Ensure you have these settings inside your configuration files:
-
-```toml
-# config/_default/config.toml
-[outputs]
-  home = ["HTML", "RSS","JSON"]
-```
-
-```toml
-# config/_default/params.toml
-enableSearch = true
-```
-
-Next add the [search.md file from the exampleSite](https://raw.githubusercontent.com/chipzoller/hugo-clarity/master/exampleSite/content/search.md) and add it to your content folder. This is not necessary if you recently created a site based on the example site and already have the file.
-
-[Compose](https://github.com/onweru/compose), from which this feature is derived, implements `fuse.js` to enable search functionality. At the time of this writing, search on this theme takes either of the following forms:
-
-1. __Passive search__
-
-    This occurs only when the user loads the search page i.e `/search/`. They can directly navigate to that url. Alternatively, the user can type the search query on the search field and hit enter. They will be redirected to the search page which will contain matched results if any.
-
-    Currently, this only works on the default language. Support for multilingual passive search is coming soon.
-
-2. __Live search__
-
-    This behavior will be obvious as the user types a search query on the search field. All valid search queries will yield a list of quick links or a simple "no matches found". Else, the user will be prompted to continue typing.
-
-    Live search works even for multilingual sites.
-
-    For Chinese-like languages, it may or may not work.
-
-__Search Scope__
-
-- Searching within a section will yield results from that section.
-
-    For example, if you have 3 sections in your content i.e `blog`, `docs` & `examples`, searching in the `docs` section will only produce results for that section.
-- Searching outside a section will search the entire site.
-
-     For example, with the above setup, searching from the homepage will produce results from the entire site.
 
 ### Basic Content Delivery Network (CDN) for Images and Files
 

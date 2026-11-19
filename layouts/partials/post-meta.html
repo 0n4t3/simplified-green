@@ -1,21 +1,25 @@
-{{- $showShare := ne (.Param "showshare") false }}
+{{- with .page }}
+{{- $showShare := and (not $.isCard) (ne (.Param "showshare") false) }}
+{{- $tags := and (not $.isCard) .Params.tags }}
 {{- $showDate := ne (.Param "showdate") false }}
 {{- $showLastmod := default false (.Param "showLastmod") }}
 {{- $lastmodSeparator := default "/" (.Param "lastmodSeparator") }}
 {{- $showReadTime := ne (.Param "showreadtime") false }}
-{{- $showPostMeta := or ($showShare) ($showDate) ($showReadTime) (isset .Params "tags") }}
+{{- $showPostMeta := or ($showShare) ($showDate) $showReadTime $tags }}
 {{- $scratch := newScratch }}
 {{- $scratch.Set "writeSeparator" false }}
 {{- if $showPostMeta }}
   <div class="post_meta">
 {{- end }}
   {{- if $showDate }}
-    <span>{{ partial "sprite" (dict "icon" "calendar") }}</span>
+    {{- if not $.isCard }}
+      <span>{{ partial "sprite" (dict "icon" "calendar") }}</span>
+    {{- end }}
     <span class="post_date">
-      {{ .Date.Format (default "Jan 2, 2006" $.Site.Params.dateFormat) -}}
+      {{ .Date.Format (default "Jan 2, 2006" site.Params.dateFormat) -}}
       {{ if (and $showLastmod (ne .Date .Lastmod)) }}
         {{ $lastmodSeparator }} <time datetime="{{ .Lastmod.Format "Mon Jan 10 17:13:38 2020 -0700" }}">
-        {{ .Lastmod.Format (default "Jan 2, 2006" $.Site.Params.dateFormat) }}</time>
+        {{ .Lastmod.Format (default "Jan 2, 2006" site.Params.dateFormat) }}</time>
       {{ end }}	  
     </span>
     {{- $scratch.Set "writeSeparator" true }}
@@ -24,7 +28,7 @@
     <span class="post_time">{{ if ($scratch.Get "writeSeparator") }} · {{ end }}{{ T "reading_time" . }}</span>
     {{- $scratch.Set "writeSeparator" true }}
   {{- end }}
-  {{- with .Params.tags -}}
+  {{- with $tags -}}
     <span>
       {{- if ($scratch.Get "writeSeparator") }}&nbsp;· {{ end }}
       {{- range . }}
@@ -42,4 +46,5 @@
   {{- end }}
 {{- if $showPostMeta }}
   </div>
+{{- end }}
 {{- end }}

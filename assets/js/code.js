@@ -61,13 +61,7 @@ function wrapOrphanedPreElements() {
 wrapOrphanedPreElements();
 
 function codeBlocks() {
-  const markedCodeBlocks = elems('code');
-  const blocks = Array.from(markedCodeBlocks).filter(function(block){
-    return hasClasses(block) && !Array.from(block.classList).includes('noClass');
-  }).map(function(block){
-    return block
-  });
-  return blocks;
+  return elems('pre code[class]:not([class=""], .verbatim, .noClass)');
 }
 
 function codeBlockFits(block) {
